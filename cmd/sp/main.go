@@ -38,6 +38,7 @@ func main() {
 	// Transmission and content
 	tx := &gosparkpost.Transmission{
 		Recipients: []string{*toAddr},
+		ReturnPath: *fromAddr,
 		Content: gosparkpost.Content{
 			HTML:    "<p>This is a test.</p>",
 			From:    *fromAddr,
