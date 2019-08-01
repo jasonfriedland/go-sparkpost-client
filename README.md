@@ -1,5 +1,7 @@
 # go-sparkpost-client
 
+[![Build Status](https://travis-ci.org/jasonfriedland/go-sparkpost-client.svg?branch=master)](https://travis-ci.org/jasonfriedland/go-sparkpost-client)
+
 A simple test SparkPost client.
 
 ## Usage
