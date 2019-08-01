@@ -17,8 +17,8 @@ var (
 	subject  = kingpin.Flag("subject", "Email subject.").Short('s').String()
 )
 
-// getInput gets the emnail input from stdin, or sets a default if empty.
-func getInput() string {
+// getStdIn gets the emnail input from stdin, or sets a default if empty.
+func getStdIn(defaultInput string) string {
 	var err error
 	var lines []string
 	var input string
@@ -34,12 +34,12 @@ func getInput() string {
 		if err = scanner.Err(); err != nil {
 			log.Println("error reading stdin:", err)
 		}
-		input = strings.Join(lines, "\n") + "\n" // append our chomped final newline
+		input = strings.Join(lines, "\n")
 	} else {
-		input = "No email content provided."
+		input = defaultInput
 	}
 
-	return input
+	return strings.Trim(input, "\n") + "\n" // append our chomped final newline
 }
 
 // Main.
@@ -69,7 +69,7 @@ func main() {
 		Recipients: []string{*toAddr},
 		ReturnPath: *fromAddr,
 		Content: gosparkpost.Content{
-			Text:    getInput(),
+			Text:    getStdIn("No email content provided."),
 			From:    *fromAddr,
 			Subject: *subject,
 		},
