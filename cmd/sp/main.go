@@ -12,9 +12,16 @@ import (
 
 // Kingpin args/flags.
 var (
-	fromAddr = kingpin.Arg("from", "From email address.").Required().String()
-	toAddr   = kingpin.Arg("to", "To email address.").Required().String()
-	subject  = kingpin.Flag("subject", "Email subject.").Short('s').String()
+	fromAddr   = kingpin.Arg("from", "From email address.").Required().String()
+	toAddr     = kingpin.Arg("to", "To email address.").Required().String()
+	returnPath = kingpin.Flag("return-path", "Return path address.").Short('r').Default(*fromAddr).String()
+	subject    = kingpin.Flag("subject", "Email subject.").Short('s').String()
+)
+
+// OS env vars.
+var (
+	spBaseURL = os.Getenv("SPARKPOST_API_URL")
+	spAPIKey  = os.Getenv("SPARKPOST_API_KEY")
 )
 
 // getStdIn gets the emnail input from stdin, or sets a default if empty.
@@ -53,8 +60,8 @@ func main() {
 
 	// Config
 	cfg := &gosparkpost.Config{
-		BaseUrl:    os.Getenv("SPARKPOST_API_URL"),
-		ApiKey:     os.Getenv("SPARKPOST_API_KEY"),
+		BaseUrl:    spBaseURL,
+		ApiKey:     spAPIKey,
 		ApiVersion: 1,
 	}
 
@@ -67,7 +74,7 @@ func main() {
 	// Transmission and content
 	tx = &gosparkpost.Transmission{
 		Recipients: []string{*toAddr},
-		ReturnPath: *fromAddr,
+		ReturnPath: *returnPath,
 		Content: gosparkpost.Content{
 			Text:    getStdIn("No email content provided."),
 			From:    *fromAddr,
