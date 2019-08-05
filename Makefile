@@ -1,4 +1,9 @@
-all: build
+sp: build
+
+all: clean lint test build
+
+clean:
+	rm -f sp
 
 build:
 	go build -o sp cmd/sp/main.go

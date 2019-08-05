@@ -6,9 +6,31 @@ A simple test SparkPost client.
 
 ## Usage
 
+Lint, test and build the CLI binary:
+
+    # All the things (clean lint test build):
+    make all
+    # Just build:
     make
+
+Export SparkPost config:
+
     export SPARKPOST_API_KEY=<your API key>
     export SPARKPOST_API_URL=<your API URL>
-    export SPARKPOST_RETURN_PATH=<your return path>
-    
-    echo Testing | ./sp -s Test from@example.com to@example.com
+
+Usage (an empty `--return-path` will use the `from` arg):
+
+    usage: sp [<flags>] <from> <to>
+
+    Flags:
+        --help             Show context-sensitive help (also try --help-long and --help-man).
+    -r, --return-path=""   Return path address.
+    -s, --subject=SUBJECT  Email subject.
+
+    Args:
+    <from>  From email address.
+    <to>    To email address.
+
+Example:
+
+    echo "Test email." | ./sp -s Test -r bounce@example.com from@example.com to@example.com
