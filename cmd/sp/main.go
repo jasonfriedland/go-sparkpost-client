@@ -1,12 +1,12 @@
 package main
 
 import (
-	"bufio"
 	"log"
 	"os"
 	"strings"
 
 	"github.com/SparkPost/gosparkpost"
+	"github.com/jasonfriedland/go-piper"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
@@ -27,22 +27,14 @@ var (
 // getStdIn gets the emnail input from stdin, or sets a default if empty.
 func getStdIn(defaultInput string) string {
 	var err error
-	var lines []string
 	var input string
 
 	// Check for piped in input
-	stat, _ := os.Stdin.Stat()
-	if (stat.Mode() & os.ModeCharDevice) == 0 {
-		// Body input is being piped in
-		scanner := bufio.NewScanner(os.Stdin)
-		for scanner.Scan() {
-			lines = append(lines, scanner.Text())
-		}
-		if err = scanner.Err(); err != nil {
-			log.Println("error reading stdin:", err)
-		}
-		input = strings.Join(lines, "\n")
-	} else {
+	input, err = piper.Read()
+	if err != nil {
+		log.Println("error reading stdin:", err)
+	}
+	if input == "" {
 		input = defaultInput
 	}
 
