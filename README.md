@@ -1,6 +1,6 @@
 # go-sparkpost-client
 
-[![Actions Status](https://github.com/jasonfriedland/go-sparkpost-client/workflows/Go/badge.svg)](https://github.com/jasonfriedland/go-sparkpost-client/actions)
+[![Lint](https://github.com/jasonfriedland/go-sparkpost-client/actions/workflows/lint.yml/badge.svg)](https://github.com/jasonfriedland/go-sparkpost-client/actions/workflows/lint.yml)
 
 A simple test SparkPost client.
 
